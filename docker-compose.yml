@@ -1,0 +1,33 @@
+name: msu
+
+services:
+  postgres:
+    image: ${DATABASE_DIALECT}:latest
+    container_name: ${DATABASE_HOST}
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+      - TZ=Asia/Bangkok
+    volumes:
+      - postgre-volume:/var/lib/postgresql
+    networks:
+      - msu-network
+    ports:
+      - "${DATABASE_PORT}:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+
+volumes:
+  postgre-volume:
+    name: postgre-volume
+
+networks:
+  msu-network:
+    name: msu-network
+    driver: bridge
+
