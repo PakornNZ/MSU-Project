@@ -25,7 +25,7 @@ const Categories = sequelize.define('categories', {
     itemSeq: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 10
+        defaultValue: Sequelize.literal("nextval('categories_itemseq_seq')")
     }
 }, { timestamps: false })
 
@@ -48,7 +48,7 @@ const Subcategories = sequelize.define('subCategories', {
     itemSeq: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 10
+        defaultValue: Sequelize.literal("nextval('subCategories_itemseq_seq')")
     }
 }, { timestamps: false })
 
@@ -71,7 +71,7 @@ const Questions = sequelize.define('questions', {
     itemSeq: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 10
+        defaultValue: Sequelize.literal("nextval('questions_itemseq_seq')")
     }
 }, { timestamps: false })
 
@@ -383,6 +383,7 @@ const Results = sequelize.define('results', {
     answer: DataTypes.JSONB,
     note: DataTypes.TEXT,
     subScore: DataTypes.JSONB,
+    totalScore: DataTypes.INTEGER,
     avgScore: DataTypes.DECIMAL(3, 2)
 })
 
