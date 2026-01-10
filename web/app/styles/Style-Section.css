@@ -1,0 +1,292 @@
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px;
+    width: clamp(300px, 95%, 800px);
+    /* min-width: 500px; */
+}
+
+footer {
+    height: 90px; 
+
+}
+.actionpage-container {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.actionpage-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 8px;
+    border-radius: 50px;
+    color: var(--color-white);
+    background: var(--color-main);
+    transition: all 0.3s ease-in-out;
+}
+
+.actionpage-section:hover {
+    transform: scale(1.02);
+}
+
+.actionpage-section button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.actionpage-section button:disabled {
+    opacity: 0.5;
+}
+
+.actionpage-section button:disabled:hover {
+    background: var(--color-main);
+    box-shadow: none;
+}
+
+.actionpage-section button:hover {
+    background: var(--color-main-fade);
+    box-shadow: 0 0 4px var(--color-main-drak);
+}
+
+
+/* * Question Form */
+.sub-category-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sub-category-block h3 {
+    background: var(--background);
+    border-radius: var(--radius-max);
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: var(--color-main);
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 1px 3px var(--shadow);
+}
+
+.question-item {
+    color: var(--color-black);
+    font-size: 1rem;
+    background: var(--color-white);
+    box-shadow: 0 1px 3px var(--shadow);
+    padding: 10px;
+    border-radius: var(--radius-mid);
+    transition: all 0.3s ease-in-out;
+}
+
+.question-item:hover {
+    box-shadow: 0 2px 6px var(--shadow);
+    transform: scale(1.01);
+}
+
+.question-item p {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.question-item .question-number {
+    font-weight: 500;
+}
+
+.question-score {
+    display: flex;
+    gap: 15px;
+    padding: 10px;
+}
+
+.question-score label {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+    color: var(--color-black);
+}
+
+.question-score input {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--stroke);
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--color-white);
+}
+
+.question-score input::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+    background-color: var(--color-white);
+}
+
+.question-score input:checked {
+    border-color: var(--color-main);
+    background-color: var(--color-main); 
+}
+
+.question-score input:checked::before {
+    transform: scale(1);
+}
+
+.question-score input:hover {
+    transform: scale(1.1);
+    border-color: var(--color-main);
+}
+
+
+/* * metadata */
+.form-metadata-container {
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    border-radius: var(--radius-max);
+    background: var(--background);
+    box-shadow: 0 0 4px var(--shadow);
+}
+
+.form-metadata-container div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-metadata-container p {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--color-black);
+    font-size: 0.9rem;
+    opacity: 0.8;
+    padding-left: 6px;
+}
+
+.form-metadata-container .important::after {
+    content: "*";
+    color: var(--color-main-drak);
+    margin-left: 4px;
+}
+
+.form-metadata-container input {
+    padding: 5px;
+    padding-left: 10px;
+    border-bottom: 2px solid rgb(138, 138, 138);
+    border-radius: var(--radius-mid) var(--radius-mid) 0 0;
+    font-size: 1rem;
+    color: var(--color-black);
+    width: clamp(150px, 80%, 400px);
+    transition: all 0.3s ease-in-out;
+}
+
+.form-metadata-container input:focus {
+    outline: none;
+    opacity: 1;
+    border-bottom: 2px solid var(--color-main);
+}
+
+.other-container {
+    margin-top: 5px;
+}
+
+.form-metadata-container select {
+    padding: 5px;
+    background: var(--color-white);
+    border: 1px solid var(--background);
+    border-radius: var(--radius-min);
+    box-shadow: 0 0 1px var(--shadow);
+    transition: all 0.3 ease-in-out;
+}
+
+.form-metadata-container select:focus {
+    outline: none;
+    border-color: var(--color-main);
+    box-shadow: 0 0 2px var(--color-main);
+}
+
+
+/* * note */
+.note-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    background: var(--background);
+    padding: 10px;
+    border-radius: var(--radius-mid);
+    box-shadow: 0 1px 3px var(--shadow);
+    width: 100%;
+}
+
+.note-container h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-main);
+    margin-bottom: 5px;  
+    padding-left: 5px;  
+}
+
+.note-container textarea {
+    width: 100%;
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: var(--radius-min);
+    resize: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.note-container textarea:focus {
+    outline: none;
+}
+
+.submit-container {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.submit-container button {
+    padding: 10px 30px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-white);
+    background: var(--color-main);
+    box-shadow: 0 1px 3px var(--shadow);
+    border: none;
+    border-radius: var(--radius-mid);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.submit-container button:hover {
+    transform: scale(1.01);
+    background: var(--color-main-fade);
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.submit-container button:disabled {
+    background: var(--stroke);
+    box-shadow: none;
+    opacity: 0.7;
+}

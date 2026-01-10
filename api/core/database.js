@@ -261,6 +261,78 @@ const Beds = sequelize.define('beds', {
     }
 })
 
+// Table Personnel
+const Personnel = sequelize.define('personnels', {
+    personId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    personnel: DataTypes.TEXT
+}, { 
+    timestamps: false,
+    hooks: {
+        afterSync: async () => {
+            const count = await Personnel.count()
+            if (count === 0) {
+                await Personnel.bulkCreate([
+                    { personnel: '1 - 30 คน' },
+                    { personnel: '31 - 60 คน' },
+                    { personnel: 'มากกว่า 60 คน' }
+                ])
+            }
+        }
+    }
+})
+
+// Table Personnel It
+const PersonnelIt = sequelize.define('personnelIts', {
+    personItId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    personnelIt: DataTypes.TEXT
+}, { 
+    timestamps: false,
+    hooks: {
+        afterSync: async () => {
+            const count = await PersonnelIt.count()
+            if (count === 0) {
+                await PersonnelIt.bulkCreate([
+                    { personnelIt: '1 - 5 คน' },
+                    { personnelIt: '6 - 10 คน' },
+                    { personnelIt: 'มากกว่า 10 คน' }
+                ])
+            }
+        }
+    }
+})
+
+// Table Personnel Cyber Sec
+const PersonnelCyberSec = sequelize.define('personnelCyberSecs', {
+    personCyberSecId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    personnelCyberSec: DataTypes.TEXT
+}, { 
+    timestamps: false,
+    hooks: {
+        afterSync: async () => {
+            const count = await PersonnelCyberSec.count()
+            if (count === 0) {
+                await PersonnelCyberSec.bulkCreate([
+                    { personnelCyberSec: '1 - 5 คน' },
+                    { personnelCyberSec: '6 - 10 คน' },
+                    { personnelCyberSec: 'มากกว่า 10 คน' }
+                ])
+            }
+        }
+    }
+})
+
 // Table Infrastructures
 const Infrastructures = sequelize.define('infrastructures', {
     infraId: {
@@ -351,9 +423,30 @@ const Respondents = sequelize.define('respondents', {
             key: 'bedId'
         }
     },
-    staffTotal: DataTypes.INTEGER,
-    itStaff: DataTypes.INTEGER,
-    cyberSecStaff: DataTypes.INTEGER,
+    personId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Personnel,
+            key: 'personId'
+        }
+    },
+    personItId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: PersonnelIt,
+            key: 'personItId'
+        }
+    },
+    personCyberSecId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: PersonnelCyberSec,
+            key: 'personCyberSecId'
+        }
+    },
     infraId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -383,7 +476,7 @@ const Results = sequelize.define('results', {
     answer: DataTypes.JSONB,
     note: DataTypes.TEXT,
     subScore: DataTypes.JSONB,
-    totalScore: DataTypes.INTEGER,
+    totalScore: DataTypes.DECIMAL(6, 2),
     avgScore: DataTypes.DECIMAL(3, 2)
 })
 
@@ -416,6 +509,15 @@ Respondents.belongsTo(Services, { foreignKey: 'serviceId' })
 Beds.hasMany(Respondents, { foreignKey: 'bedId' })
 Respondents.belongsTo(Beds, { foreignKey: 'bedId' })
 
+Personnel.hasMany(Respondents, { foreignKey: 'staffTotal', sourceKey: 'personId' })
+Respondents.belongsTo(Personnel, { foreignKey: 'staffTotal', targetKey: 'personId' })
+
+PersonnelIt.hasMany(Respondents, { foreignKey: 'itStaff', sourceKey: 'personItId' })
+Respondents.belongsTo(PersonnelIt, { foreignKey: 'itStaff', targetKey: 'personItId' })
+
+PersonnelCyberSec.hasMany(Respondents, { foreignKey: 'cyberSecStaff', sourceKey: 'personCyberSecId' })
+Respondents.belongsTo(PersonnelCyberSec, { foreignKey: 'cyberSecStaff', targetKey: 'personCyberSecId' })
+
 Infrastructures.hasMany(Respondents, { foreignKey: 'infraId' })
 Respondents.belongsTo(Infrastructures, { foreignKey: 'infraId' })
 
@@ -435,6 +537,9 @@ module.exports = {
     Responsibilities,
     Services,
     Beds,
+    Personnel,
+    PersonnelIt,
+    PersonnelCyberSec,
     Infrastructures,
     Respondents,
     Results

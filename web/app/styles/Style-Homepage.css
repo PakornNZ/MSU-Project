@@ -1,0 +1,127 @@
+.homepage-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    width: 100dvw;
+    background-color: #f8fafc;
+    overflow: hidden;
+}
+
+.background-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    opacity: 0.6;
+    animation: float 10s ease-in-out infinite;
+}
+
+.shape-1 {
+    top: -15%;
+    left: -10%;
+    width: 45vw;
+    height: 45vw;
+    background: var(--shadow);
+    opacity: 0.1;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    bottom: -15%;
+    right: -10%;
+    width: 40vw;
+    height: 40vw;
+    background: var(--shadow);
+    opacity: 0.1;
+    animation-delay: -2s;
+}
+
+.shape-3 {
+    top: 40%;
+    left: 10%;
+    width: 20vw;
+    height: 20vw;
+    background: var(--shadow);
+    opacity: 0.2;
+    filter: blur(60px);
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(20px);
+    }
+}
+
+.content-card {
+    position: relative;
+    z-index: 1;
+    background: var(--background);
+    padding: 60px;
+    border-radius: var(--radius-max);
+    box-shadow: 0 2px 12px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-wrapper {
+    background: var(--color-main);
+    color: var(--color-white);
+    box-shadow: 0 4px 8px var(--shadow);
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.start-button {
+    background: var(--color-main);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px var(--shadow);
+    transition: all 0.3s ease-in-out;
+}
+
+.start-button:hover {
+    background: var(--color-main-fade);
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .content-card {
+        padding: 20px;
+        width: 90vw;
+    }
+    .hidden-mobile {
+        display: none;
+    }
+}
+
+.homepage-topic {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    width: clamp(100%, 60vw, 800px);
+}
+
+.homepage-topic span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-black);
+    opacity: 0.8;
+}

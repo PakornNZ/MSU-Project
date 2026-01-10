@@ -1,0 +1,26 @@
+header {
+    z-index: 99;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+
+.header-container {
+    text-align: center;
+    padding: 5px;
+    font-size: clamp(16px, 4vw, 22px);
+    font-weight: 800;
+    border-radius: var(--radius-mid);
+    background: var(--color-main);
+    color: var(--color-white);
+    box-shadow: 0 1px 3px var(--color-main-fade);
+}
+
+.error-container {
+    color: rgb(243, 13, 13) !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    border-radius: var(--radius-min);
+}

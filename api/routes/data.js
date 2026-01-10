@@ -15,6 +15,9 @@ const {
     Responsibilities,
     Services,
     Beds,
+    Personnel,
+    PersonnelIt,
+    PersonnelCyberSec,
     Infrastructures,
     Respondents,
     Results
@@ -31,6 +34,9 @@ router.get('/fetch/form', async (req, res) => {
         const responsibilities = await Responsibilities.findAll({ order: [['respId', 'ASC']] })
         const services = await Services.findAll({ order: [['serviceId', 'ASC']] })
         const beds = await Beds.findAll({ order: [['bedId', 'ASC']] })
+        const personnel = await Personnel.findAll({ order: [['personId', 'ASC']] })
+        const personnelIt = await PersonnelIt.findAll({ order: [['personItId', 'ASC']] })
+        const personnelCyberSec = await PersonnelCyberSec.findAll({ order: [['personCyberSecId', 'ASC']] })
         const infrastructures = await Infrastructures.findAll({ order: [['infraId', 'ASC']] })
         const categories = await Categories.findAll({ order: [['itemSeq', 'ASC']] })
         const quesList = []
@@ -97,6 +103,18 @@ router.get('/fetch/form', async (req, res) => {
                 id: item.bedId,
                 bed: item.bed
             })),
+            personnel: personnel.map((item) => ({
+                id: item.personId,
+                personnel: item.personnel
+            })),
+            personnelIt: personnelIt.map((item) => ({
+                id: item.personItId,
+                personnelIt: item.personnelIt
+            })),
+            personnelCyberSec: personnelCyberSec.map((item) => ({
+                id: item.personCyberSecId,
+                personnelCyberSec: item.personnelCyberSec
+            })),
             infrastructures: infrastructures.map((item) => ({
                 id: item.infraId,
                 infrastructure: item.infrastructure
@@ -120,7 +138,7 @@ router.get('/fetch/form', async (req, res) => {
 
 router.post('/create/respondents', async (req, res) => {
     try {
-        const {
+        let {
             genderId,
             ageId,
             posId,
@@ -131,14 +149,18 @@ router.post('/create/respondents', async (req, res) => {
             serviceId,
             serviceOther,
             bedId,
-            staffTotal,
-            itStaff,
-            cyberSecStaff,
+            personId,
+            personItId,
+            personCyberSecId,
             infraId,
             answer,
             note
         } = req.body
-
+        
+        posOther = posOther !== '' ? posOther : null
+        respOther = respOther !== '' ? respOther : null
+        serviceOther = serviceOther !== '' ? serviceOther : null
+        note = note !== '' ? note : null
         const newRespondent = await Respondents.create({
             genderId,
             ageId,
@@ -150,23 +172,56 @@ router.post('/create/respondents', async (req, res) => {
             serviceId,
             serviceOther,
             bedId,
-            staffTotal,
-            itStaff,
-            cyberSecStaff,
+            personId,
+            personItId,
+            personCyberSecId,
             infraId
         })
 
-        const subScore = {}
-        const totalScore = 0
-        const avgScore = 0.00
+        let categoriesList = {}
+        let totalRawScore = 0
+        let totalQuestions = 0
+        let sumNormalizedScore = 0
+        
+        const targetCategories = Object.keys(answer).sort((a, b) => Number(a) - Number(b)).slice(0, 5)
 
-        // ! Calculate subScore, totalScore, avgScore based on 'answer' object
-
+        for (const catId of targetCategories) {
+            let subTotalScore = 0
+            let subCount = 0
+            let catList = {
+                'catTotalScore': 0,
+                'subCatScore': {}
+            }
+            for (const subCatId in answer[catId]) {
+                let quesTotalScore = 0
+                let quesCount = 0
+                for (const quesId in answer[catId][subCatId]) {
+                    const score = parseInt(answer[catId][subCatId][quesId]) || 0
+                    quesTotalScore += score
+                    totalRawScore += score
+                    
+                    quesCount += 1
+                    subCount += 1
+                    totalQuestions += 1
+                }
+                subTotalScore += quesTotalScore
+                const nomalizedSubScore = quesCount > 0 ? (quesTotalScore / (quesCount * 5)) * 100 : 0
+                catList.subCatScore[subCatId] = Number(nomalizedSubScore.toFixed(2))
+            }
+            const nomalizedCatScore = subCount > 0 ? Number(((subTotalScore / (subCount * 5)) * (100)).toFixed(2)) : 0
+            catList.catTotalScore = nomalizedCatScore
+            categoriesList[catId] = catList
+            sumNormalizedScore += nomalizedCatScore
+        }
+        
+        const totalScore = Number(sumNormalizedScore.toFixed(2))
+        const avgScore = totalQuestions > 0 ? Number((totalRawScore / totalQuestions).toFixed(2)) : 0
+        
         const newResults = await Results.create({
             respondentId: newRespondent.respondentId,
             answer: answer,
             note: note,
-            subScore: subScore,
+            subScore: categoriesList,
             totalScore: totalScore,
             avgScore: avgScore
         })
@@ -175,15 +230,15 @@ router.post('/create/respondents', async (req, res) => {
             status: 1,
             message: 'Respondent created successfully',
             data: {
-                respondent: newRespondent,
-                result: newResults
+                resultId: newResults.resultId
             }
         })
 
     } catch (error) {
+        console.error("Error in create/respondents:", error);
         res.status(500).json({
             status: 0,
-            message: 'Error creating respondents',
+            message: 'Error creating respondents: ' + error.message,
             data: {}
         })
     }
@@ -287,6 +342,94 @@ router.post('/create/questions', async (req, res) => {
         res.status(500).json({
             status: 0,
             message: 'Error creating question',
+            data: {}
+        })
+    }
+})
+
+router.get('/fetch/results/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await Results.findOne({ 
+            where: { resultId: id },
+            include: [{
+                model: Respondents,
+                include: [Genders, Ages, Positions, Experiences, Responsibilities, Services, Beds, Infrastructures]
+            }]
+        })
+
+        if (!result) {
+            return res.status(404).json({
+                status: 0,
+                message: 'Result not found',
+                data: {}
+            })
+        }
+
+        const categoriesList = await Categories.findAll(
+            { order: [['itemSeq', 'ASC']] ,
+                include: [{
+                    model: Subcategories,
+                    include: [Questions],
+                    order: [['itemSeq', 'ASC']]
+                }]
+            }
+        )
+        result.totalScore = Number(result.totalScore)
+        result.avgScore = Number(result.avgScore)
+
+        let subScore = []
+        for (const catId in result.subScore) {
+            let cat = {
+                catId: 0,
+                category: '',
+                catTotalScore: 0,
+                subCat: []
+            }
+
+            const catDetail = categoriesList.find(c => c.catId == Number(catId))
+            const scoreData = result.subScore[catId]
+            cat.category = catDetail.category
+            cat.catId = Number(catId)
+            cat.catTotalScore = scoreData.catTotalScore
+            
+            const dbSubCategories = catDetail.subCategories || catDetail.dataValues.subCategories || []
+
+            for (const subCatId in scoreData.subCatScore) {
+
+                const subCatDetail = dbSubCategories.find(sc => sc.subCatId == Number(subCatId))
+                
+                if (subCatDetail) {
+                    let subCat = {
+                        subCatId: subCatDetail.subCatId,
+                        subCategory: subCatDetail.subCategory,
+                        score: scoreData.subCatScore[subCatId]
+                    }
+                    cat.subCat.push(subCat)
+                }
+            }
+            subScore.push(cat)
+        }
+
+        const questionResponses = {
+            resultId: result.resultId,
+            totalScore: result.totalScore,
+            avgScore: result.avgScore,
+            subScore: subScore,
+            createdAt: result.createdAt,
+            updatedAt: result.updatedAt
+        }
+
+        return res.status(200).json({
+            status: 1,
+            message: 'Fetched successfully',
+            data: questionResponses
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: 0,
+            message: 'Error fetching result',
             data: {}
         })
     }
