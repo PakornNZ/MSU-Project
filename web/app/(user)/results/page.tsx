@@ -3,10 +3,10 @@ import Loading from "@/app/components/Loading"
 import SectionResults from "@/app/components/Section-Results"
 import axios from "axios"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { ResultDataProps } from "@/app/types/Interfaces"
 
-export default function Results() {
+function ResultsContent() {
     const router = useRouter()
     const [resultData, setResultData] = useState<ResultDataProps | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -42,5 +42,13 @@ export default function Results() {
                 <Loading />
             )}
         </>
+    )
+}
+
+export default function Results() {
+    return (
+        <Suspense fallback={<Loading />}>
+            <ResultsContent />
+        </Suspense>
     )
 }

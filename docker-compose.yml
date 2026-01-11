@@ -23,52 +23,52 @@ services:
         limits:
           cpus: '1.0'
           memory: 2G
-    frontend:
-      build:
-        context: .
-        dockerfile: web/Dockerfile.prod
-      container_name: frontend
-      restart: unless-stopped
-      environment:
-        - API_PATH=${API_PATH}
-        - TZ=Asia/Bangkok
-      networks:
-        - msu-network
-        - pakorn-network
-      ports:
-        - "3000:3000"
-      deploy:
-        resources:
-          limits:
-            cpus: '1.0'
-            memory: 1G
-    backend:
-      build:
-        context: .
-        dockerfile: api/Dockerfile.prod
-      container_name: backend
-      restart: unless-stopped
-      environment:
-        - DATABASE_DIALECT=${DATABASE_DIALECT}
-        - DATABASE_HOST=${DATABASE_HOST}
-        - DATABASE_PORT=${DATABASE_PORT}
-        - DATABASE_USER=${DATABASE_USER}
-        - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-        - DATABASE_NAME=${DATABASE_NAME}
-        - API_HOST=${API_HOST}
-        - API_PORT=${API_PORT}
-        - API_VERSION=${API_VERSION}
-        - TZ=Asia/Bangkok
-      networks:
-        - msu-network
-        - pakorn-network
-      ports:
-        - "5000:5000"
-      deploy:
-        resources:
-          limits:
-            cpus: '1.0'
-            memory: 1G
+  frontend:
+    build:
+      context: .
+      dockerfile: web/Dockerfile.prod
+    container_name: frontend
+    restart: unless-stopped
+    environment:
+      - API_PATH=${API_PATH}
+      - TZ=Asia/Bangkok
+    networks:
+      - msu-network
+      - pakorn-network
+    ports:
+      - "3000:3000"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+  backend:
+    build:
+      context: .
+      dockerfile: api/Dockerfile.prod
+    container_name: backend
+    restart: unless-stopped
+    environment:
+      - DATABASE_DIALECT=${DATABASE_DIALECT}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - API_HOST=${API_HOST}
+      - API_PORT=${API_PORT}
+      - API_VERSION=${API_VERSION}
+      - TZ=Asia/Bangkok
+    networks:
+      - msu-network
+      - pakorn-network
+    ports:
+      - "5000:5000"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
 
 networks:
   msu-network:

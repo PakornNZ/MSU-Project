@@ -508,14 +508,14 @@ Respondents.belongsTo(Services, { foreignKey: 'serviceId' })
 Beds.hasMany(Respondents, { foreignKey: 'bedId' })
 Respondents.belongsTo(Beds, { foreignKey: 'bedId' })
 
-Personnel.hasMany(Respondents, { foreignKey: 'staffTotal', sourceKey: 'personId' })
-Respondents.belongsTo(Personnel, { foreignKey: 'staffTotal', targetKey: 'personId' })
+Personnel.hasMany(Respondents, { foreignKey: 'personId' })
+Respondents.belongsTo(Personnel, { foreignKey: 'personId' })
 
-PersonnelIt.hasMany(Respondents, { foreignKey: 'itStaff', sourceKey: 'personItId' })
-Respondents.belongsTo(PersonnelIt, { foreignKey: 'itStaff', targetKey: 'personItId' })
+PersonnelIt.hasMany(Respondents, { foreignKey: 'personItId' })
+Respondents.belongsTo(PersonnelIt, { foreignKey: 'personItId' })
 
-PersonnelCyberSec.hasMany(Respondents, { foreignKey: 'cyberSecStaff', sourceKey: 'personCyberSecId' })
-Respondents.belongsTo(PersonnelCyberSec, { foreignKey: 'cyberSecStaff', targetKey: 'personCyberSecId' })
+PersonnelCyberSec.hasMany(Respondents, { foreignKey: 'personCyberSecId' })
+Respondents.belongsTo(PersonnelCyberSec, { foreignKey: 'personCyberSecId' })
 
 Infrastructures.hasMany(Respondents, { foreignKey: 'infraId' })
 Respondents.belongsTo(Infrastructures, { foreignKey: 'infraId' })
