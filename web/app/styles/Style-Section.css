@@ -4,7 +4,6 @@ section {
     align-items: center;
     padding: 0 10px;
     width: clamp(300px, 95%, 800px);
-    /* min-width: 500px; */
 }
 
 footer {
@@ -170,7 +169,7 @@ footer {
 .form-metadata-container div {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-metadata-container p {
@@ -209,21 +208,66 @@ footer {
     margin-top: 5px;
 }
 
-.form-metadata-container select {
-    padding: 5px;
-    background: var(--color-white);
-    border: 1px solid var(--background);
-    border-radius: var(--radius-min);
-    box-shadow: 0 0 1px var(--shadow);
-    transition: all 0.3 ease-in-out;
+.metadata-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 5px;
+    margin: 0 !important;
 }
 
-.form-metadata-container select:focus {
-    outline: none;
+.metadata-radio-group label {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--color-black);
+    padding: 4px 0;
+    width: fit-content;
+}
+
+.metadata-radio-group input {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    flex-shrink: 0;
+    border: 2px solid var(--stroke);
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--color-white);
+    padding: 0;
+}
+
+.metadata-radio-group input::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+    background-color: var(--color-white);
+}
+
+.metadata-radio-group input:checked {
     border-color: var(--color-main);
-    box-shadow: 0 0 2px var(--color-main);
+    background-color: var(--color-main); 
 }
 
+.metadata-radio-group input:checked::before {
+    transform: scale(1);
+}
+
+.metadata-radio-group input:hover {
+    transform: scale(1.1);
+    border-color: var(--color-main);
+}
 
 /* * note */
 .note-container {

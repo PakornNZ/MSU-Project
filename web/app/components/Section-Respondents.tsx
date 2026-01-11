@@ -177,51 +177,59 @@ export default function SectionRespondent({ formData }: { formData: FormDataProp
                                 {msgError !== "" && <p className='error-container'>{msgError}</p>}
                                 <div className="gender-container">
                                     <p className="important">เพศ</p>
-                                    <select 
-                                        name="gender" 
-                                        id="gender-select"
-                                        value={answers.genderId}
-                                        onChange={(e) => handleMetadataChange('genderId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.genders.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.gender}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="gender" 
+                                                    value={item.id}
+                                                    checked={answers.genderId === item.id}
+                                                    onChange={() => handleMetadataChange('genderId', item.id)}
+                                                />
+                                                {item.gender}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                                 <div className="age-container">
                                     <p className="important">อายุ</p>
-                                    <select 
-                                        name="age" 
-                                        id="age-select"
-                                        value={answers.ageId}
-                                        onChange={(e) => handleMetadataChange('ageId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.ages.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.age}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="age" 
+                                                    value={item.id}
+                                                    checked={answers.ageId === item.id}
+                                                    onChange={() => handleMetadataChange('ageId', item.id)}
+                                                />
+                                                {item.age}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                                 <div className="position-container">
                                     <p className="important">ตำแหน่งงาน</p>
-                                    <select 
-                                        name="position" 
-                                        id="position-select"
-                                        value={answers.posId}
-                                        onChange={(e) => handleMetadataChange('posId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.positions.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.position}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="position"
+                                                    value={item.id}
+                                                    checked={answers.posId === item.id}
+                                                    onChange={() => handleMetadataChange('posId', item.id)}
+                                                />
+                                                {item.position}
+                                            </label>
                                         ))}
-                                    </select>
-                                    {/* <p>Position Other</p> */}
+                                    </div>
                                     { answers.posId === 6 &&
                                         <input 
                                             className='other-container'
                                             type="text" 
-                                            placeholder='อื่น ๆ ...'
+                                            placeholder='โปรดระบุตำแหน่งอื่น ๆ ...'
                                             value={answers.posOther || ''}
                                             onChange={(e) => handleMetadataChange('posOther', e.target.value)}
                                         />
@@ -229,36 +237,42 @@ export default function SectionRespondent({ formData }: { formData: FormDataProp
                                 </div>
                                 <div className="experience-container">
                                     <p className="important">ประสบการณ์ในสายงาน IT / Cybersecurity</p>
-                                    <select 
-                                        name="experience" 
-                                        id="experience-select"
-                                        value={answers.expId}
-                                        onChange={(e) => handleMetadataChange('expId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.experiences.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.experience}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="experience"
+                                                    value={item.id}
+                                                    checked={answers.expId === item.id}
+                                                    onChange={() => handleMetadataChange('expId', item.id)}
+                                                />
+                                                {item.experience}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                                 <div className="responsibility-container">
                                     <p className="important">ความรับผิดชอบหลัก</p>
-                                    <select 
-                                        name="responsibility" 
-                                        id="responsibility-select"
-                                        value={answers.respId}
-                                        onChange={(e) => handleMetadataChange('respId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.responsibilities.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.responsibility}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="responsibility"
+                                                    value={item.id}
+                                                    checked={answers.respId === item.id}
+                                                    onChange={() => handleMetadataChange('respId', item.id)}
+                                                />
+                                                {item.responsibility}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                     { answers.respId === 4 &&
                                         <input 
                                             className='other-container'
                                             type="text"
-                                            placeholder='อื่น ๆ ...'
+                                            placeholder='โปรดระบุหน้าที่อื่น ๆ ...'
                                             value={answers.respOther || ''}
                                             onChange={(e) => handleMetadataChange('respOther', e.target.value)}
                                         />
@@ -266,22 +280,25 @@ export default function SectionRespondent({ formData }: { formData: FormDataProp
                                 </div>
                                 <div className="service-container">
                                     <p className="important">ลักษณะการให้บริการของโรงพยาบาล (Service Plan)</p>
-                                    <select 
-                                        name="service" 
-                                        id="service-select"
-                                        value={answers.serviceId}
-                                        onChange={(e) => handleMetadataChange('serviceId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.services.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.service}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="service"
+                                                    value={item.id}
+                                                    checked={answers.serviceId === item.id}
+                                                    onChange={() => handleMetadataChange('serviceId', item.id)}
+                                                />
+                                                {item.service}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                     { answers.serviceId === 8 &&
                                         <input 
                                             className='other-container'
                                             type="text"
-                                            placeholder='อื่น ๆ ...'
+                                            placeholder='โปรดระบุลักษณะอื่น ๆ ...'
                                             value={answers.serviceOther || ''}
                                             onChange={(e) => handleMetadataChange('serviceOther', e.target.value)}
                                         />
@@ -289,73 +306,88 @@ export default function SectionRespondent({ formData }: { formData: FormDataProp
                                 </div>
                                 <div className="bed-container">
                                     <p className="important">จำนวนเตียง</p>
-                                    <select 
-                                        name="bed" 
-                                        id="bed-select"
-                                        value={answers.bedId}
-                                        onChange={(e) => handleMetadataChange('bedId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.beds.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.bed}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="bed"
+                                                    value={item.id}
+                                                    checked={answers.bedId === item.id}
+                                                    onChange={() => handleMetadataChange('bedId', item.id)}
+                                                />
+                                                {item.bed}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                                 <div className="staffTotal-container">
                                     <p className="important">จำนวนพนักงานทั้งหมด</p>
-                                    <select 
-                                        name="personnel" 
-                                        id="personnel-select"
-                                        value={answers.personId}
-                                        onChange={(e) => handleMetadataChange('personId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.personnel.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.personnel}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="personnel"
+                                                    value={item.id}
+                                                    checked={answers.personId === item.id}
+                                                    onChange={() => handleMetadataChange('personId', item.id)}
+                                                />
+                                                {item.personnel}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                                 <div className="itStaff-container">
                                     <p className="important">จำนวนบุคลากรฝ่าย IT</p>
-                                    <select 
-                                        name="personnelIt" 
-                                        id="personnelIt-select"
-                                        value={answers.personItId}
-                                        onChange={(e) => handleMetadataChange('personItId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.personnelIt.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.personnelIt}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="personnelIt"
+                                                    value={item.id}
+                                                    checked={answers.personItId === item.id}
+                                                    onChange={() => handleMetadataChange('personItId', item.id)}
+                                                />
+                                                {item.personnelIt}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                                 <div className="cyberSecStaff-container">
                                     <p className="important">จำนวนเจ้าหน้าที่ที่รับผิดชอบด้าน Cybersecurity โดยเฉพาะ</p>
-                                    <select 
-                                        name="personnelCyberSec" 
-                                        id="personnelCyberSec-select"
-                                        value={answers.personCyberSecId}
-                                        onChange={(e) => handleMetadataChange('personCyberSecId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.personnelCyberSec.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.personnelCyberSec}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="personnelCyberSec"
+                                                    value={item.id}
+                                                    checked={answers.personCyberSecId === item.id}
+                                                    onChange={() => handleMetadataChange('personCyberSecId', item.id)}
+                                                />
+                                                {item.personnelCyberSec}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                                 <div className="infrastructure-container">
                                     <p className="important">โครงสร้างพื้นฐานระบบเครือข่าย</p>
-                                    <select 
-                                        name="infrastructure" 
-                                        id="infrastructure-select"
-                                        value={answers.infraId}
-                                        onChange={(e) => handleMetadataChange('infraId', Number(e.target.value))}
-                                    >
-                                        <option value={0}>Select...</option>
+                                    <div className="metadata-radio-group">
                                         {formData?.infrastructures.map((item) => (
-                                            <option value={item.id} key={item.id}>{item.infrastructure}</option>
+                                            <label key={item.id}>
+                                                <input 
+                                                    type="radio"
+                                                    name="infrastructure"
+                                                    value={item.id}
+                                                    checked={answers.infraId === item.id}
+                                                    onChange={() => handleMetadataChange('infraId', item.id)}
+                                                />
+                                                {item.infrastructure}
+                                            </label>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                             </div>
                         )}

@@ -7,7 +7,7 @@ export default function HomePage() {
   const router = useRouter()
 
   const onRedirec = () => {
-    router.push('/respondents')
+    router.push('/description')
   }
 
   return (
