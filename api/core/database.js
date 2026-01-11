@@ -1,6 +1,7 @@
 require('dotenv').config()
 const DATABASE_DIALECT = process.env.DATABASE_DIALECT || 'postgres'
 const DATABASE_HOST = process.env.DATABASE_HOST || 'localhost'
+// const DATABASE_HOST = 'localhost'
 const DATABASE_PORT = process.env.DATABASE_PORT || 5432
 const DATABASE_USER = process.env.DATABASE_USER || 'postgres'
 const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD || 'password'
@@ -251,9 +252,13 @@ const Beds = sequelize.define('beds', {
             const count = await Beds.count()
             if (count === 0) {
                 await Beds.bulkCreate([
-                    { bed: '1 - 30 เตียง', minValue: 1, maxValue: 30 },
-                    { bed: '31 - 120 เตียง', minValue: 31, maxValue: 120 },
-                    { bed: 'มากกว่า 120 เตียง', minValue: 121, maxValue: null }
+                    { bed: '1 - 60 เตียง', minValue: 1, maxValue: 60 },
+                    { bed: '61 - 90 เตียง', minValue: 61, maxValue: 90 },
+                    { bed: '91 - 120 เตียง', minValue: 91, maxValue: 120 },
+                    { bed: '121 - 180 เตียง', minValue: 121, maxValue: 180 },
+                    { bed: '181 - 300 เตียง', minValue: 181, maxValue: 300 },
+                    { bed: '301 - 500 เตียง', minValue: 301, maxValue: 500 },
+                    { bed: 'มากกว่า 500 เตียง', minValue: 501, maxValue: null }
                 ])
             }
         }
@@ -267,7 +272,9 @@ const Personnel = sequelize.define('personnels', {
         primaryKey: true,
         autoIncrement: true
     },
-    personnel: DataTypes.TEXT
+    personnel: DataTypes.TEXT,
+    minValue: DataTypes.INTEGER,
+    maxValue: DataTypes.INTEGER
 }, { 
     timestamps: false,
     hooks: {
@@ -275,9 +282,13 @@ const Personnel = sequelize.define('personnels', {
             const count = await Personnel.count()
             if (count === 0) {
                 await Personnel.bulkCreate([
-                    { personnel: '1 - 30 คน' },
-                    { personnel: '31 - 60 คน' },
-                    { personnel: 'มากกว่า 60 คน' }
+                    { personnel: '1 - 60 คน', minValue: 1, maxValue: 60 },
+                    { personnel: '61 - 120 คน', minValue: 61, maxValue: 120 },
+                    { personnel: '121 - 180 คน', minValue: 121, maxValue: 180 },
+                    { personnel: '181 - 350 คน', minValue: 181, maxValue: 350 },
+                    { personnel: '351 - 600 คน', minValue: 351, maxValue: 600 },
+                    { personnel: '601 - 1000 คน', minValue: 601, maxValue: 1000 },
+                    { personnel: 'มากกว่า 1000 คน', minValue: 1001, maxValue: null }
                 ])
             }
         }
@@ -291,7 +302,9 @@ const PersonnelIt = sequelize.define('personnelIts', {
         primaryKey: true,
         autoIncrement: true
     },
-    personnelIt: DataTypes.TEXT
+    personnelIt: DataTypes.TEXT,
+    minValue: DataTypes.INTEGER,
+    maxValue: DataTypes.INTEGER
 }, { 
     timestamps: false,
     hooks: {
@@ -299,9 +312,9 @@ const PersonnelIt = sequelize.define('personnelIts', {
             const count = await PersonnelIt.count()
             if (count === 0) {
                 await PersonnelIt.bulkCreate([
-                    { personnelIt: '1 - 5 คน' },
-                    { personnelIt: '6 - 10 คน' },
-                    { personnelIt: 'มากกว่า 10 คน' }
+                    { personnelIt: '1 - 5 คน', minValue: 1, maxValue: 5 },
+                    { personnelIt: '6 - 10 คน', minValue: 6, maxValue: 10 },
+                    { personnelIt: 'มากกว่า 10 คน', minValue: 11, maxValue: null }
                 ])
             }
         }
@@ -315,7 +328,9 @@ const PersonnelCyberSec = sequelize.define('personnelCyberSecs', {
         primaryKey: true,
         autoIncrement: true
     },
-    personnelCyberSec: DataTypes.TEXT
+    personnelCyberSec: DataTypes.TEXT,
+    minValue: DataTypes.INTEGER,
+    maxValue: DataTypes.INTEGER
 }, { 
     timestamps: false,
     hooks: {
@@ -323,9 +338,9 @@ const PersonnelCyberSec = sequelize.define('personnelCyberSecs', {
             const count = await PersonnelCyberSec.count()
             if (count === 0) {
                 await PersonnelCyberSec.bulkCreate([
-                    { personnelCyberSec: '1 - 5 คน' },
-                    { personnelCyberSec: '6 - 10 คน' },
-                    { personnelCyberSec: 'มากกว่า 10 คน' }
+                    { personnelCyberSec: '1 - 5 คน', minValue: 1, maxValue: 5 },
+                    { personnelCyberSec: '6 - 10 คน', minValue: 6, maxValue: 10 },
+                    { personnelCyberSec: 'มากกว่า 10 คน', minValue: 11, maxValue: null }
                 ])
             }
         }
